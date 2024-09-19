@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FirstShader
-  m_Shader: {fileID: 4800000, guid: 375637514608b87439006633daa8f4ad, type: 3}
+  m_Shader: {fileID: 4800000, guid: 292a271a359724a46b7af5225466fd4b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -27,32 +27,40 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OG:
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
+        m_Scale: {x: 0.16, y: 0.27}
+        m_Offset: {x: 0.405, y: 0.49}
+    - _Offset:
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
+        m_Scale: {x: 0.16, y: 0.27}
+        m_Offset: {x: 0.405, y: 0.49}
     - _RenderTexture:
         m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 0.16, y: 0.27}
+        m_Offset: {x: 0.405, y: 0.85}
     - _Style:
-        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
+        m_Scale: {x: 0.16, y: 0.27}
+        m_Offset: {x: 0.405, y: 0.85}
     - _StyleHeightmap:
         m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
+        m_Scale: {x: 0.16, y: 0.16}
+        m_Offset: {x: 0.405, y: 0.49}
     - _TextureSample1:
         m_Texture: {fileID: 2800000, guid: 7f0aa0d8abde14e4ba5ec1ce7c5884fc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
-        m_Texture: {fileID: 2800000, guid: 301b7155c09b9694ab6042feb20620b7, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
+        m_Scale: {x: 2.08, y: 3.07}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
-        m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
         m_Scale: {x: 0.16, y: 0.27}
         m_Offset: {x: 0.405, y: 0.49}
     - _TextureSample4:
@@ -78,7 +86,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BumpPower: 0.24029961
+    - _BumpPower: 0.18395445
     - _Cutoff: 0.5
     - _EnvironmentReflections: 1
     - _QueueControl: 0

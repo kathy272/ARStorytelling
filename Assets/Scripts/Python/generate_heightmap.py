@@ -1,16 +1,20 @@
 import cv2
 import numpy as np
 
-def generate_heightmap(input_image_path, output_image_path):
-    print("Generating heightmap from image:", input_image_path)
+# Load image or get from camera feed
+image = cv2.imread('map.png')
 
-    img = cv2.imread(input_image_path)
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    heightmap = cv2.normalize(gray_img, None, 0, 255, cv2.NORM_MINMAX)
-    cv2.imwrite(output_image_path, heightmap)
+# Convert to HSV (easier to define color ranges)
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-if __name__ == "__main__":
-    import sys
-    input_image_path = sys.argv[1]
-    output_image_path = "C:/Users/kendl/OneDrive/Documents/UnityProjects/ProjectBA/BaProject/Assets/Resources/heightmaps/heightmap.png"
-    generate_heightmap(input_image_path, output_image_path)
+# Define the range for pink color (adjust as needed)
+lower_pink = np.array([140, 50, 50])
+upper_pink = np.array([170, 255, 255])
+
+# Create a mask for pink color
+mask = cv2.inRange(hsv_image, lower_pink, upper_pink)
+
+# Find contours in the mask (areas with pink)
+contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# Now you have the positions of pink areas

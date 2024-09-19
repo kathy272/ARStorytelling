@@ -4,46 +4,48 @@ public class WebcamDisplay : MonoBehaviour
 {
     public RenderTexture renderTexture; // Assign this in the Inspector
     public int webcamIndex = 1; // Index of the desired webcam
+    public float updateInterval = 1f; // Time between updates
 
     private WebCamTexture webcamTexture;
+    private Texture2D texture2D;
+    private Color[] pixelData;
+    private float timer;
 
     void Start()
     {
-        // Get available webcams
         WebCamDevice[] devices = WebCamTexture.devices;
 
-        if (devices.Length > 0)
-        {
-            // Ensure the index is within the bounds of available devices
-            if (webcamIndex < devices.Length)
-            {
-                // Create and start the webcam texture for the chosen camera
-                webcamTexture = new WebCamTexture(devices[webcamIndex].name);
-                webcamTexture.Play();
-            }
-            else
-            {
-                Debug.LogError("Webcam index is out of range.");
-            }
-        }
-        else
-        {
-            Debug.LogError("No webcam devices found.");
-        }
+   
+               // webcamTexture = new WebCamTexture(devices[webcamIndex].name);
+                //webcamTexture.Play();
+               // texture2D = new Texture2D(webcamTexture.width, webcamTexture.height);
 
-        // Set the RenderTexture as the target for the webcam feed
-        if (renderTexture != null && webcamTexture != null)
-        {
-            Graphics.Blit(webcamTexture, renderTexture);
-        }
     }
 
     void Update()
     {
-        // Continuously update the RenderTexture with the webcam feed
-        if (renderTexture != null && webcamTexture != null)
+    
+       
+
+        timer += Time.deltaTime;
+        if (timer >= updateInterval)
         {
-            Graphics.Blit(webcamTexture, renderTexture);
+            timer = 0f;
+
+            // Read pixels from the webcam texture
+            texture2D.SetPixels(webcamTexture.GetPixels());
+            texture2D.Apply();
+
+            // Copy texture data to render texture
+            Graphics.Blit(texture2D, renderTexture);
+
+            // Optionally: Save pixel data for averaging
+            pixelData = texture2D.GetPixels();
         }
+    }
+
+    public Color[] GetPixelData()
+    {
+        return pixelData;
     }
 }

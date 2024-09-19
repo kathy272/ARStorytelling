@@ -79,7 +79,7 @@ Node;AmplifyShaderEditor.WorldPosInputsNode;4;-1408,-336;Inherit;False;0;4;FLOAT
 Node;AmplifyShaderEditor.RangedFloatNode;3;-1168,16;Inherit;False;Constant;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;0.03;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;25;-1645.315,796.4163;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;27;-1337.658,1026.979;Inherit;False;Constant;_Float4;Float 4;10;0;Create;True;0;0;0;False;0;False;0.28;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1648,960;Float;False;Property;_cloudHeight;cloudHeight;6;0;Create;True;0;0;0;False;0;False;2.95;0.05;-3;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1648,960;Float;False;Property;_cloudHeight;cloudHeight;6;0;Create;True;0;0;0;False;0;False;2.95;0.21;-3;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;2;-928,-176;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;5;-1472,-544;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;-1321.312,907.0892;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -183,4 +183,4 @@ WireConnection;0;1;48;0
 WireConnection;0;2;38;0
 WireConnection;0;10;13;0
 ASEEND*/
-//CHKSM=99835387B2219AFAED0513DD2D8626195EE92260
+//CHKSM=61CB72079C68184FF6330BDAFC42206E3E98F97D
