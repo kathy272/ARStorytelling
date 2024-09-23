@@ -6,7 +6,7 @@ import os
 def generate_image(prompt):
     api_url = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
     #    api_url = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
-    headers = {"Authorization": f"Bearer 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","Content-Type": "application/json", "x-use-cache": "false"}
+    headers = {"Authorization": f"Bearer hf_xxx","Content-Type": "application/json", "x-use-cache": "false"}
 #,"x-wait-for-model": "true
     # Define a base style template that will be added to every prompt
     base_prompt = "in the style of epic concept art, highly detailed, vivid colors, cinematic lighting, photorealistic textures."
