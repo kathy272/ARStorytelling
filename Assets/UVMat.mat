@@ -68,9 +68,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StyleHeightmap:
-        m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -84,13 +84,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
-        m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 55ec1e78eca4c2e44b4001572e8640c8, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample4:
-        m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
+        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
         m_Scale: {x: 0.16, y: 0.27}
         m_Offset: {x: 0.405, y: 0.49}
+    - _TextureSample5:
+        m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample6:
+        m_Texture: {fileID: 2800000, guid: 55ec1e78eca4c2e44b4001572e8640c8, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
     - _TextureSamplex:
         m_Texture: {fileID: 2800000, guid: ffe80db1dd4ce4a489666675135c94ac, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -109,11 +117,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BumpPower: 0.34
+    - _BumpPower: 0.32686642
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DisplacementScale: 0.53
+    - _DisplacementScale: 0.23
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -128,7 +136,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
+    - _time: 0.26
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.034187946, g: 0.02052083, b: 0.015965126, a: 0.36862746}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

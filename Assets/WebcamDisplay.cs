@@ -16,9 +16,9 @@ public class WebcamDisplay : MonoBehaviour
         WebCamDevice[] devices = WebCamTexture.devices;
 
    
-               // webcamTexture = new WebCamTexture(devices[webcamIndex].name);
-                //webcamTexture.Play();
-               // texture2D = new Texture2D(webcamTexture.width, webcamTexture.height);
+                webcamTexture = new WebCamTexture(devices[webcamIndex].name);
+                webcamTexture.Play();
+               texture2D = new Texture2D(webcamTexture.width, webcamTexture.height);
 
     }
 

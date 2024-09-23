@@ -8,6 +8,7 @@ public class ShaderController : MonoBehaviour
     public GameObject Clouds; // Reference to the cloud prefab
     public ARObjectSpawner arObjectSpawner; // Reference to ARObjectSpawner
     private GameObject spawnedClouds;
+    private GameObject Plane;
 
     private void Start()
     {
@@ -30,9 +31,12 @@ public class ShaderController : MonoBehaviour
             if (spawnedClouds == null)
             {
                 Vector3 spawnPosition = arObjectSpawner.GetCloudSpawnPosition();
+                spawnPosition.y -= 0.30f; 
                 if (spawnPosition != Vector3.zero)
                 {
                     spawnedClouds = Instantiate(Clouds, spawnPosition, Quaternion.identity);
+                    spawnedClouds.transform.SetParent(GameObject.Find("Both(Clone)").transform);
+
                 }
             }
             else

@@ -5,12 +5,14 @@ import os
 
 def generate_image(prompt):
     api_url = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
-    headers = {"Authorization": f"Bearer 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"}
-
+    #    api_url = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
+    headers = {"Authorization": f"Bearer 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","Content-Type": "application/json", "x-use-cache": "false"}
+#,"x-wait-for-model": "true
     # Define a base style template that will be added to every prompt
     base_prompt = "in the style of epic concept art, highly detailed, vivid colors, cinematic lighting, photorealistic textures."
 
     # Combine the base prompt with the user's prompt
+
     full_prompt = f"{prompt}, {base_prompt}"
 
     # Retry parameters
@@ -45,7 +47,11 @@ def generate_image(prompt):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        user_prompt = sys.argv[1]  # Get the user prompt from command-line arguments
+        user_prompt = sys.argv[1]
         generate_image(user_prompt)
+
     else:
         print("Please provide a prompt.")
+        # Example
+        generate_image("Create a landscape with mountains and a river")
+

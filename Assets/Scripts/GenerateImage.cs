@@ -10,7 +10,7 @@ public class GenerateImage : MonoBehaviour
     public RawImage generatedImageDisplay;
     private string imagePath = "C:/Users/kendl/OneDrive/Documents/UnityProjects/ProjectBA/BaProject/Assets/Scripts/Python/generated_image.png";
     private string pythonScriptPath = "C:/Users/kendl/OneDrive/Documents/UnityProjects/ProjectBA/BaProject/Assets/Scripts/Python/image_creation.py";
-
+    public RawImage savedImage;
     public void GenerateWithPrompt()
     {
         UnityEngine.Debug.Log("Generate Button Clicked");
@@ -40,12 +40,13 @@ public class GenerateImage : MonoBehaviour
         if (!string.IsNullOrEmpty(error))
         {
             UnityEngine.Debug.LogError("Python Error: " + error);
+            UnityEngine.Debug.LogError("Ai is busy...Try again later.");
         }
 
         process.WaitForExit(); // Wait for Python to finish
 
         // Wait for a few seconds before checking if the image exists
-        yield return new WaitForSeconds(60); // Adjust the delay as needed
+        yield return new WaitForSeconds(15); // Adjust the delay as needed
 
         // Check if the image was generated and exists
         if (File.Exists(imagePath))
@@ -71,7 +72,18 @@ public class GenerateImage : MonoBehaviour
         // Set the texture in the RawImage to display it
         generatedImageDisplay.texture = texture;
         generatedImageDisplay.SetNativeSize();
+        savedImage.texture = texture;
 
         yield return null;
     }
+    void OnApplicationQuit()
+    {
+        // Check if the generated image exists and delete it
+        if (File.Exists(imagePath))
+        {
+            File.Delete(imagePath);
+            UnityEngine.Debug.Log("Temporary image deleted on application quit.");
+        }
+    }
+
 }

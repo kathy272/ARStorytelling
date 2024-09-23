@@ -3,6 +3,7 @@ guid: b2c9144e21bbf2b41a530bc6f0cf2f9b
 ShaderImporter:
   externalObjects: {}
   defaultTextures:
+  - _RenderTexture: {fileID: 8600000, guid: 96d0e153619eb17418b7cdf8bff3550c, type: 2}
   - _StyleHeightmap: {fileID: 2800000, guid: 301b7155c09b9694ab6042feb20620b7, type: 3}
   nonModifiableTextures: []
   userData: 
