@@ -34,7 +34,7 @@ public class ColorDetection : MonoBehaviour
         try
         {
             // Refresh assets
-            UnityEditor.AssetDatabase.Refresh();
+          //  UnityEditor.AssetDatabase.Refresh();
             // Start the process
             using (Process process = Process.Start(processInfo))
             {

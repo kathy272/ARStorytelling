@@ -1,74 +1,31 @@
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.InputSystem; // For touch support in Unity's new Input system
-using System.Collections.Generic;
-using UnityEngine.UI;
-
 
 public class PinMarkerController : MonoBehaviour
 {
-    public GameObject pinPrefab;  // Prefab of the pin mesh
-    public Camera arCamera;  // Reference to the AR or scene camera
-    public LayerMask mapLayer;  // Layer of the terrain or map
-    private ARRaycastManager raycastManager;
-    public Button placePinButton; // Button to enable pin placement mode
-    private bool isPinPlacementMode = false;
+    //unneccessary
+    public GameObject pinUIPrefab;  // Ensure this is declared only once and no conflicts with other scripts
+    public RectTransform cameraFeedRect;
+    public Camera mainCamera;
+    public Transform terrain;
 
-    void Start()
+    public void PlacePin(Vector2 screenPosition)
     {
-        placePinButton.onClick.AddListener(EnablePinPlacementMode);
+        Vector3 worldPosition = ScreenToWorld(screenPosition);
 
-        raycastManager = FindObjectOfType<ARRaycastManager>();
-    }
-    void EnablePinPlacementMode()
-    {
-        isPinPlacementMode = true; // Enable pin placement mode
-    }
-    void Update()
-    {
-        // For AR (Touch or marker-based placement)
-        if (isPinPlacementMode && Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == UnityEngine.TouchPhase.Began)
-            {
-                TryPlacePin(touch.position);
-                isPinPlacementMode = false;
-            }
-        }
-
-        // For 3D scene or PC (Mouse-based placement)
-        if (isPinPlacementMode && Input.GetMouseButtonDown(0))
-        {
-            TryPlacePin(Input.mousePosition);
-            isPinPlacementMode = false;
-        }
+        GameObject pin = Instantiate(pinUIPrefab, worldPosition, Quaternion.identity, terrain);
+        AdjustPinForZoomAndPan(pin);
     }
 
-    // Function to place a pin based on a screen position
-    void TryPlacePin(Vector2 screenPosition)
+    Vector3 ScreenToWorld(Vector2 screenPosition)
     {
-        // AR: Raycast in the AR environment to detect planes/markers
-        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        if (raycastManager.Raycast(screenPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.Planes))
-        {
-            // Get the position where the raycast hit the AR plane/marker
-            Pose hitPose = hits[0].pose;
+        Vector3 localPos = cameraFeedRect.InverseTransformPoint(screenPosition);
+        Vector3 worldPos = terrain.TransformPoint(localPos);
+        return worldPos;
+    }
 
-            // Instantiate the pin mesh at that position
-            Instantiate(pinPrefab, hitPose.position, hitPose.rotation);
-        }
-        else
-        {
-            // 3D Scene: Raycast into the 3D world (e.g., terrain or map)
-            Ray ray = arCamera.ScreenPointToRay(screenPosition);
-            RaycastHit hit;
+    void AdjustPinForZoomAndPan(GameObject pin)
+    {
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mapLayer))
-            {
-                // Instantiate the pin mesh at the position where the ray hit the terrain/map
-                Instantiate(pinPrefab, hit.point, Quaternion.identity);
-            }
-        }
+        // Logic to adjust pin placement based on zoom/pan
     }
 }

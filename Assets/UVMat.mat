@@ -11,10 +11,12 @@ Material:
   m_Shader: {fileID: 4800000, guid: b2c9144e21bbf2b41a530bc6f0cf2f9b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 0
-  m_EnableInstancingVariants: 1
+  m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
+  m_InvalidKeywords:
+  - _RECEIVESHADOWS_OFF
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -60,17 +62,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RenderTexture:
-        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: fff5ae8225ea1e24b98644c7631c7b6e, type: 3}
+        m_Scale: {x: 0.72, y: 1}
+        m_Offset: {x: 0.15, y: 0}
     - _Style:
         m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StyleHeightmap:
-        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 7f0aa0d8abde14e4ba5ec1ce7c5884fc, type: 3}
+        m_Scale: {x: 0.72, y: 1}
+        m_Offset: {x: 0.15, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -80,7 +82,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
-        m_Texture: {fileID: 8600000, guid: f8f206ad6c5cece4da5d514f19cc9dc4, type: 2}
+        m_Texture: {fileID: 2800000, guid: 8c6a314d87cf7b447ac9fa690dc73291, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
@@ -115,14 +117,33 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BumpPower: 0.32686642
+    - _AlphaCutoff: 0.5
+    - _BumpPower: 0.47
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DecalAngleFadeSupported: 1
+    - _DecalMeshBiasType: 0
+    - _DecalMeshDepthBias: 0
+    - _DecalMeshViewBias: 0
     - _DetailNormalMapScale: 1
-    - _DisplacementScale: 0.23
+    - _DisplacementScale: 0
+    - _DrawOrder: 0
     - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -130,6 +151,9 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -139,6 +163,6 @@ Material:
     - _time: 0.26
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.034187946, g: 0.02052083, b: 0.015965126, a: 0.36862746}
+    - _Color0: {r: 0.034187946, g: 0.02052083, b: 0.015965126, a: 0.6431373}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

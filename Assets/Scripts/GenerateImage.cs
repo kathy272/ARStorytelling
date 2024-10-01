@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Diagnostics;
 using System.IO;
 using System.Collections;
+using System;
 
 public class GenerateImage : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class GenerateImage : MonoBehaviour
     private string imagePath = "C:/Users/kendl/OneDrive/Documents/UnityProjects/ProjectBA/BaProject/Assets/Scripts/Python/generated_image.png";
     private string pythonScriptPath = "C:/Users/kendl/OneDrive/Documents/UnityProjects/ProjectBA/BaProject/Assets/Scripts/Python/image_creation.py";
     public RawImage savedImage;
+    public GameObject previewUI;
+    public GameObject generatedImageUI;
+    public GameObject savedImageUI;
+    private string pythonApplication = "C:/Users/kendl/AppData/Local/Microsoft/WindowsApps/python.exe";
+
+
     public void GenerateWithPrompt()
     {
         UnityEngine.Debug.Log("Generate Button Clicked");
@@ -21,10 +28,12 @@ public class GenerateImage : MonoBehaviour
     private IEnumerator GenerateImageFromPrompt(string prompt)
     {
         UnityEngine.Debug.Log("command: powershell -Command \"python " + pythonScriptPath + " \"" + prompt + "\"\"");
-
+        UnityEngine.Debug.Log("PowerShell path: " + Environment.GetFolderPath(Environment.SpecialFolder.System) + "/WindowsPowerShell/v1.0/powershell.exe");
         Process process = new Process();
-        process.StartInfo.FileName = "powershell";
-        process.StartInfo.Arguments = $"-Command \"python \"{pythonScriptPath}\" \"{prompt}\"\""; // Use PowerShell to run Python script with the prompt
+        //process.StartInfo.FileName = "powershell";
+       process.StartInfo.FileName = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe";
+
+        process.StartInfo.Arguments = $"-Command \"{pythonApplication} \"{pythonScriptPath}\" \"{prompt}\"\""; // Use PowerShell to run Python script with the prompt
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
         process.StartInfo.UseShellExecute = false;
@@ -69,6 +78,9 @@ public class GenerateImage : MonoBehaviour
         Texture2D texture = new Texture2D(2, 2);
         texture.LoadImage(fileData); // Load the image into the texture
 
+        //hide the preview ui and show the generated image on the generated image display
+        previewUI.gameObject.SetActive(false);
+        generatedImageUI.gameObject.SetActive(true);
         // Set the texture in the RawImage to display it
         generatedImageDisplay.texture = texture;
         generatedImageDisplay.SetNativeSize();

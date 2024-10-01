@@ -16,7 +16,7 @@ public class UpdateTex : MonoBehaviour
             // Update the texture in the shader
             targetMaterial.SetTexture(texturePropertyName, newTexture);
 
-            AssetDatabase.Refresh();
+         //   AssetDatabase.Refresh();
         }
     }
 

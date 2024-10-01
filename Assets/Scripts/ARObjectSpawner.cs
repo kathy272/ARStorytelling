@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
+using UnityEngine.XR.ARSubsystems;
 
 public class ARObjectSpawner : MonoBehaviour
 {
@@ -10,8 +10,8 @@ public class ARObjectSpawner : MonoBehaviour
     private ARRaycastManager raycastManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
     private GameObject spawnedObject;
-    //reference to shadercontroller script
 
+    // Reference to shadercontroller script
     public ShaderController shaderController;
 
     // Height offset for spawning clouds
@@ -26,6 +26,11 @@ public class ARObjectSpawner : MonoBehaviour
     // Reference to the XR Ray Interactor
     public XRRayInteractor rayInteractor;
 
+   
+
+    // Define a button to spawn the object
+    public UnityEngine.InputSystem.InputAction spawnAction;
+
     void Start()
     {
         raycastManager = GetComponent<ARRaycastManager>();
@@ -33,6 +38,8 @@ public class ARObjectSpawner : MonoBehaviour
         {
             Debug.LogError("XRRayInteractor is not assigned.");
         }
+        // Enable the input action
+        spawnAction.Enable();
     }
 
     void Update()
@@ -42,35 +49,44 @@ public class ARObjectSpawner : MonoBehaviour
 
         // Check for screen taps or clicks
         HandleTouchInput();
+
+        // Check if the spawn action is triggered
+        if (spawnAction.triggered)
+        {
+            SpawnObjectWithController();
+        }
+    }
+
+    void SpawnObjectWithController()
+    {
+        // Perform a raycast from the XRRayInteractor
+        Vector3 rayOrigin = rayInteractor.transform.position;
+        Vector3 rayDirection = rayInteractor.transform.forward;
+
+        RaycastHit hitInfo;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo))
+        {
+            Pose hitPose = new Pose(hitInfo.point, Quaternion.identity);
+
+            // If no object has been spawned yet, instantiate the object
+            if (spawnedObject == null)
+            {
+                spawnedObject = Instantiate(objectToSpawn, hitPose.position, hitPose.rotation);
+                spawnedObject.transform.localScale = initialScale; // Set the initial scale
+            }
+            else
+            {
+                // Move the existing object to the new position
+                spawnedObject.transform.position = hitPose.position;
+                spawnedObject.transform.rotation = hitPose.rotation;
+            }
+        }
     }
 
     void HandleRayInteractorInput()
     {
         if (rayInteractor != null)
         {
-            // Perform a raycast from the XRRayInteractor
-            Vector3 rayOrigin = rayInteractor.transform.position;
-            Vector3 rayDirection = rayInteractor.transform.forward;
-
-            RaycastHit hitInfo;
-            if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo))
-            {
-                Pose hitPose = new Pose(hitInfo.point, Quaternion.identity);
-
-                // If no object has been spawned yet, instantiate the object
-                if (spawnedObject == null)
-                {
-                    spawnedObject = Instantiate(objectToSpawn, hitPose.position, hitPose.rotation);
-                    spawnedObject.transform.localScale = initialScale; // Set the initial scale
-                }
-                else
-                {
-                    // Move the existing object to the new position
-                    spawnedObject.transform.position = hitPose.position;
-                    spawnedObject.transform.rotation = hitPose.rotation;
-                }
-            }
-
             // Resizing the object with controller input
             if (spawnedObject != null)
             {
@@ -119,12 +135,13 @@ public class ARObjectSpawner : MonoBehaviour
                 else
                 {
                     // Move the object to the new hit position
-                   // spawnedObject.transform.position = hitPose.position;
-                    //spawnedObject.transform.rotation = hitPose.rotation;
+                    spawnedObject.transform.position = hitPose.position;
+                    spawnedObject.transform.rotation = hitPose.rotation;
                 }
             }
         }
     }
+
     public void Reset()
     {
         if (spawnedObject != null)
@@ -134,16 +151,5 @@ public class ARObjectSpawner : MonoBehaviour
             spawnedObject = null; // Reset the reference to allow a new object to be spawned
             shaderController.ResetClouds();
         }
-
-    }
-
-    // Get the position for spawning clouds above the environment
-    public Vector3 GetCloudSpawnPosition()
-    {
-        if (spawnedObject != null)
-        {
-            return spawnedObject.transform.position + Vector3.up * cloudSpawnHeight;
-        }
-        return Vector3.zero; // Default position if no object has been spawned
     }
 }
