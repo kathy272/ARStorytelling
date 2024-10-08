@@ -6,29 +6,19 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ARObjectSpawner : MonoBehaviour
 {
-    public GameObject objectToSpawn; // The object to spawn
+    public GameObject objectToSpawn; 
     private ARRaycastManager raycastManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
     private GameObject spawnedObject;
 
-    // Reference to shadercontroller script
+   
     public ShaderController shaderController;
-
-    // Height offset for spawning clouds
     public float cloudSpawnHeight = 5.0f;
-
-    // Initial scale of the object
     public Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
-
-    // Scale increment/decrement factor
     public float scaleFactor = 0.1f;
-
-    // Reference to the XR Ray Interactor
     public XRRayInteractor rayInteractor;
 
-   
 
-    // Define a button to spawn the object
     public UnityEngine.InputSystem.InputAction spawnAction;
 
     void Start()
@@ -44,13 +34,8 @@ public class ARObjectSpawner : MonoBehaviour
 
     void Update()
     {
-        // Check for controller input
         HandleRayInteractorInput();
-
-        // Check for screen taps or clicks
         HandleTouchInput();
-
-        // Check if the spawn action is triggered
         if (spawnAction.triggered)
         {
             SpawnObjectWithController();
@@ -59,7 +44,6 @@ public class ARObjectSpawner : MonoBehaviour
 
     void SpawnObjectWithController()
     {
-        // Perform a raycast from the XRRayInteractor
         Vector3 rayOrigin = rayInteractor.transform.position;
         Vector3 rayDirection = rayInteractor.transform.forward;
 
@@ -68,7 +52,6 @@ public class ARObjectSpawner : MonoBehaviour
         {
             Pose hitPose = new Pose(hitInfo.point, Quaternion.identity);
 
-            // If no object has been spawned yet, instantiate the object
             if (spawnedObject == null)
             {
                 spawnedObject = Instantiate(objectToSpawn, hitPose.position, hitPose.rotation);
@@ -90,11 +73,11 @@ public class ARObjectSpawner : MonoBehaviour
             // Resizing the object with controller input
             if (spawnedObject != null)
             {
-                if (Input.GetKey(KeyCode.UpArrow)) // Replace this with controller input if needed
+                if (Input.GetKey(KeyCode.UpArrow)) 
                 {
                     spawnedObject.transform.localScale += new Vector3(scaleFactor, scaleFactor, scaleFactor);
                 }
-                if (Input.GetKey(KeyCode.DownArrow)) // Replace this with controller input if needed
+                if (Input.GetKey(KeyCode.DownArrow)) 
                 {
                     spawnedObject.transform.localScale -= new Vector3(scaleFactor, scaleFactor, scaleFactor);
                 }
@@ -104,22 +87,12 @@ public class ARObjectSpawner : MonoBehaviour
 
     void HandleTouchInput()
     {
-        // Check for a touch or left mouse button click
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
             // Perform AR Raycast
             Vector2 touchPosition;
-
-            // For mobile touch
-            if (Input.touchCount > 0)
-            {
-                touchPosition = Input.GetTouch(0).position;
-            }
-            // For mouse clicks
-            else
-            {
                 touchPosition = Input.mousePosition;
-            }
+            
 
             if (raycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
             {
@@ -146,9 +119,8 @@ public class ARObjectSpawner : MonoBehaviour
     {
         if (spawnedObject != null)
         {
-            // Destroy the currently spawned object
             Destroy(spawnedObject);
-            spawnedObject = null; // Reset the reference to allow a new object to be spawned
+            spawnedObject = null; 
             shaderController.ResetClouds();
         }
     }
