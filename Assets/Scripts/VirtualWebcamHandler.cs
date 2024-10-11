@@ -3,19 +3,24 @@ using UnityEngine.UI;
 
 public class VirtualWebcamHandler : MonoBehaviour
 {
-    public RenderTexture renderTexture;  // Assign this in the Inspector
-    public RawImage displayImage;         // Assign the RawImage in the Inspector
-    public string virtualCamName = "OBS Virtual Camera";  // Name of the virtual camera (e.g., OBS VirtualCam)
+    public RenderTexture renderTexture;
+    public RawImage displayImage;
+    public string virtualCamName = "OBS Virtual Camera";
 
     private WebCamTexture webcamTexture;
     private Texture2D texture2D;
-    private Color[] pixelData;
 
     void Start()
     {
-        // Set up the webcam texture
         WebCamDevice[] devices = WebCamTexture.devices;
 
+ 
+        foreach (var device in devices)
+        {
+            Debug.Log("Device name: " + device.name);
+        }
+
+        // Look for the specific virtual camera by name
         foreach (var device in devices)
         {
             if (device.name == virtualCamName)
@@ -26,6 +31,7 @@ public class VirtualWebcamHandler : MonoBehaviour
                 if (webcamTexture.width > 0 && webcamTexture.height > 0)
                 {
                     texture2D = new Texture2D(webcamTexture.width, webcamTexture.height);
+                    Debug.Log("Virtual camera dimensions: " + webcamTexture.width + "x" + webcamTexture.height);
                 }
                 else
                 {
@@ -46,15 +52,30 @@ public class VirtualWebcamHandler : MonoBehaviour
     {
         if (webcamTexture == null || !webcamTexture.isPlaying)
         {
+            Debug.LogWarning("Webcam texture is not playing or not initialized.");
             return;
         }
 
-        if (texture2D != null)
+        // Only proceed if texture2D was successfully initialized
+        if (texture2D == null)
         {
-            texture2D.SetPixels(webcamTexture.GetPixels());
-            texture2D.Apply();
+            Debug.LogError("texture2D is not initialized.");
+            return;
+        }
+
+        // Capture and apply the webcam texture to the renderTexture
+        texture2D.SetPixels(webcamTexture.GetPixels());
+        texture2D.Apply();
+
+        if (renderTexture != null)
+        {
+            Debug.Log("Blitting texture to render texture.");
             Graphics.Blit(texture2D, renderTexture);
             displayImage.texture = renderTexture;
+        }
+        else
+        {
+            Debug.LogError("RenderTexture is not assigned.");
         }
     }
 

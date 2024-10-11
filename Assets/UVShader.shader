@@ -3647,7 +3647,7 @@ Shader "UVShader"
 Version=19603
 Node;AmplifyShaderEditor.RangedFloatNode;5;-119.8757,1195.052;Inherit;False;Property;_BumpPower;BumpPower;2;0;Create;True;0;0;0;False;0;False;0;0.47;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;31;-183.8757,971.0518;Inherit;True;Property;_RenderTexture;RenderTexture;0;0;Create;True;0;0;0;False;0;False;-1;96d0e153619eb17418b7cdf8bff3550c;fff5ae8225ea1e24b98644c7631c7b6e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.SamplerNode;79;1056,-1552;Inherit;True;Property;_TextureSample2;Texture Sample 2;11;0;Create;True;0;0;0;False;0;False;-1;None;fff5ae8225ea1e24b98644c7631c7b6e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode;79;1056,-1552;Inherit;True;Property;_TextureSample2;Texture Sample 2;11;0;Create;True;0;0;0;False;0;False;-1;None;8c6a314d87cf7b447ac9fa690dc73291;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.RangedFloatNode;81;1200,-1312;Inherit;False;Property;_DisplacementScale;DisplacementScale;12;0;Create;True;0;0;0;False;0;False;1.15;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalVertexDataNode;10;88.12427,1227.052;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;11;168.1243,1003.052;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
@@ -3655,7 +3655,7 @@ Node;AmplifyShaderEditor.PosVertexDataNode;78;768,-1552;Inherit;False;0;0;5;FLOA
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;80;1376,-1520;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;44;552.1243,859.0518;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;82;1635.699,-1486.293;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;9;-592,-608;Inherit;True;Property;_StyleHeightmap;StyleHeightmap;1;0;Create;True;0;0;0;False;0;False;-1;301b7155c09b9694ab6042feb20620b7;7f8abca702354344f99a8ac563857c87;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.SamplerNode;9;-592,-608;Inherit;True;Property;_StyleHeightmap;StyleHeightmap;1;0;Create;True;0;0;0;False;0;False;-1;301b7155c09b9694ab6042feb20620b7;7f0aa0d8abde14e4ba5ec1ce7c5884fc;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.Vector3Node;20;-192,-896;Inherit;False;Constant;_Vector2;Vector 2;7;0;Create;True;0;0;0;False;0;False;1,0.82,-1.22;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;19;-496,-1600;Inherit;False;Constant;_Float1;Float 1;7;0;Create;True;0;0;0;False;0;False;1.58;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;23;-176,-736;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
@@ -3816,4 +3816,4 @@ WireConnection;168;0;41;0
 WireConnection;168;1;94;5
 WireConnection;168;8;85;0
 ASEEND*/
-//CHKSM=2F8CB57A26105885DEDEB2509CD2A6C12B62F779
+//CHKSM=87F6308E2454C0211545C5B79E93143E934DD0CA

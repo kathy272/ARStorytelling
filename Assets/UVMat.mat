@@ -62,17 +62,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RenderTexture:
-        m_Texture: {fileID: 2800000, guid: fff5ae8225ea1e24b98644c7631c7b6e, type: 3}
-        m_Scale: {x: 0.72, y: 1}
-        m_Offset: {x: 0.15, y: 0}
+        m_Texture: {fileID: 8400000, guid: 8363c1a5c02ef654f9288c60f0ab4884, type: 2}
+        m_Scale: {x: 0.63, y: 0.75}
+        m_Offset: {x: 0.15, y: 0.15}
     - _Style:
         m_Texture: {fileID: 2800000, guid: e79f46d3028d82a4fa9961bcc55cc08c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StyleHeightmap:
-        m_Texture: {fileID: 2800000, guid: 7f0aa0d8abde14e4ba5ec1ce7c5884fc, type: 3}
-        m_Scale: {x: 0.72, y: 1}
-        m_Offset: {x: 0.15, y: 0}
+        m_Texture: {fileID: 8400000, guid: 8363c1a5c02ef654f9288c60f0ab4884, type: 2}
+        m_Scale: {x: 0.63, y: 0.75}
+        m_Offset: {x: 0.15, y: 0.15}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 273a05978e066e746ad7763ce2684edb, type: 3}
         m_Scale: {x: 1, y: 1}
