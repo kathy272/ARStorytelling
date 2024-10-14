@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Spawnable
+  - Terrain
+  - SamplesInfoPanel
+  - Locomotion
+  - PassThrough
+  - PassThroughButton
+  - LocoButton
+  - LocoText
   layers:
   - Default
   - TransparentFX
@@ -11,11 +19,11 @@ TagManager:
   - Deformer
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Map
+  - Terrain
+  - MetaPassthroughLayer
+  - NDI Layer
+  - UIMenu
   - 
   - 
   - 
