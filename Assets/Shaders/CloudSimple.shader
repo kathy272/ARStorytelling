@@ -186,40 +186,39 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-			#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#pragma multi_compile_fog
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_fog
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 
 			
-            #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
-		
 
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 
 			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
+           
 
 			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
 
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile _ _LIGHT_LAYERS
@@ -227,6 +226,8 @@ Shader "CloudSimple"
 			#pragma multi_compile _ _FORWARD_PLUS
 
 			
+            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+		
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ SHADOWS_SHADOWMASK
@@ -245,16 +246,8 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_FORWARD
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			
-			#if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -846,19 +839,20 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
@@ -872,10 +866,6 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_SHADOWCASTER
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -1191,19 +1181,20 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -1215,10 +1206,6 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_DEPTHONLY
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -2101,23 +2088,24 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			
+            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -2130,16 +2118,8 @@ Shader "CloudSimple"
 			//#define SHADERPASS SHADERPASS_DEPTHNORMALS
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			
-			#if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -2483,38 +2463,41 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-			#pragma multi_compile_instancing
-			#pragma instancing_options renderinglayer
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#pragma multi_compile_fog
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_fog
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 
 			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
+           
 
 			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
 
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 			#pragma multi_compile_fragment _ _RENDER_PASS_ENABLED
       
 			
+            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+		
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
@@ -2534,16 +2517,8 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_GBUFFER
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			
-			#if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -2995,17 +2970,18 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -3040,10 +3016,6 @@ Shader "CloudSimple"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
@@ -3279,17 +3251,18 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-
-			#define _NORMAL_DROPOFF_TS 1
-			#define ASE_FOG 1
-			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 140010
+            #define _NORMAL_DROPOFF_TS 1
+            #define ASE_FOG 1
+            #define _SURFACE_TYPE_TRANSPARENT 1
+            #define _EMISSION
+            #define _ALPHATEST_ON 1
+            #define _NORMALMAP 1
+            #define ASE_SRP_VERSION 140010
 
 
 			
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -3324,10 +3297,6 @@ Shader "CloudSimple"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
 
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
@@ -3678,4 +3647,4 @@ WireConnection;76;1;48;0
 WireConnection;76;2;38;0
 WireConnection;76;7;13;0
 ASEEND*/
-//CHKSM=B63F0928AF141A5312B541D44855231A9A70DBD8
+//CHKSM=EFA91E84EEBB5BB00BA37C96CBF83426331733C6

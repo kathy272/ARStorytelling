@@ -3,19 +3,23 @@ using Klak.Ndi;
 
 public class NDIReceiverInitializer : MonoBehaviour
 {
-    private NdiReceiver ndiReceiver;
+    public NdiReceiver ndiReceiver;
 
     void Start()
     {
-        // Get the NdiReceiver component 
-        ndiReceiver = GetComponent<NdiReceiver>();
-
-        // Check if the receiver is available
         if (ndiReceiver != null)
         {
-            // Log initialization status
             Debug.Log("NDI Receiver initialized.");
-            ndiReceiver.enabled = true; 
+            if (string.IsNullOrEmpty(ndiReceiver.ndiName))
+            {
+                Debug.LogError("NDI source not assigned.");
+            }
+            else
+            {
+                Debug.Log("Using NDI source: " + ndiReceiver.ndiName);
+            }
+
+            ndiReceiver.enabled = true;
         }
         else
         {
@@ -29,6 +33,16 @@ public class NDIReceiverInitializer : MonoBehaviour
         if (ndiReceiver.texture != null)
         {
             Debug.Log("NDI texture received.");
+
+            Renderer renderer = ndiReceiver.GetComponent<Renderer>(); // Get the Renderer component
+            if (renderer != null)
+            {
+                renderer.material.mainTexture = ndiReceiver.texture; // Assign the NDI texture to the material
+            }
+            else
+            {
+                Debug.LogError("Renderer component not found on NDI Receiver GameObject.");
+            }
         }
         else
         {

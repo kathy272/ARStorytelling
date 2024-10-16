@@ -1473,7 +1473,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -3133,7 +3133,7 @@ MonoBehaviour:
   _hand: {fileID: 1066985890}
   _offset: {x: -0.11, y: -0.075, z: -0.02}
   _rotation: {x: 0.105225, y: -0.6678412, z: 0.013933297, w: 0.7366965}
-  _mirrorLeftRotation: 1
+  _mirrorOffsetsForLeftHand: 1
 --- !u!4 &135742367
 Transform:
   m_ObjectHideFlags: 0
@@ -4035,6 +4035,196 @@ Transform:
   - {fileID: 1875823004}
   m_Father: {fileID: 1939396385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &163142384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 163142385}
+  - component: {fileID: 163142392}
+  - component: {fileID: 163142391}
+  - component: {fileID: 163142390}
+  - component: {fileID: 163142389}
+  - component: {fileID: 163142388}
+  - component: {fileID: 163142387}
+  - component: {fileID: 163142386}
+  m_Layer: 0
+  m_Name: '[BuildingBlock] Hand Tracking right'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &163142385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 961756994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &163142386
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: aa70c70787230f248b33d8a0ce1a6c3d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 0}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_DirtyAABB: 0
+--- !u!114 &163142387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73eac66b128fc8749a21623225c34541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ovrMesh: {fileID: 0}
+  _ovrSkeleton: {fileID: 0}
+  _confidenceBehavior: 1
+  _systemGestureBehavior: 1
+  _systemGestureMaterial: {fileID: 2100000, guid: 9d107f2f043e1ed408b970f146718017, type: 2}
+--- !u!114 &163142388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5c234723e3a54d8dd09b131117743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshType: 0
+--- !u!114 &163142389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54c16b381e28e8d479237771d234dbae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _confidenceBehavior: 1
+  _systemGestureBehavior: 1
+  _renderPhysicsCapsules: 0
+  _skeletonMaterial: {fileID: 2100000, guid: 9c05c5a6e4902ff4082cfb34e5b64b2d, type: 2}
+  _capsuleMaterial: {fileID: 0}
+  _systemGestureMaterial: {fileID: 2100000, guid: 38beab19e7c1f7947afac78fd60f90b0, type: 2}
+--- !u!114 &163142390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2609c54f376cffc4da1ab9401cc1a36f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skeletonType: 0
+  _updateRootPose: 0
+  _updateRootScale: 1
+  _enablePhysicsCapsules: 0
+  _applyBoneTranslations: 1
+--- !u!114 &163142391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7623a8f0b49cf4dbaa40aea4d4be64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HandType: 0
+  _pointerPoseRoot: {fileID: 0}
+  m_showState: 3
+  RayHelper: {fileID: 0}
+--- !u!114 &163142392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163142384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b023183069df224080314a560e6e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockId: 8b26b298-7bf4-490e-b245-a039c0184303
+  instanceId: 93a19ecd-eaec-43bf-a1d3-c8d46f6e3e2f
+  version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &165022330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4434,7 +4624,7 @@ MonoBehaviour:
   _hand: {fileID: 2073561224}
   _offset: {x: -0.1, y: -0.035, z: 0}
   _rotation: {x: 0.105225, y: -0.6678412, z: 0.013933297, w: 0.7366965}
-  _mirrorLeftRotation: 1
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &187341738
 GameObject:
   m_ObjectHideFlags: 0
@@ -8858,6 +9048,7 @@ MonoBehaviour:
   _handJointId: 0
   _localPositionOffset: {x: 0, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &376260275
 GameObject:
   m_ObjectHideFlags: 0
@@ -9437,6 +9628,7 @@ MonoBehaviour:
   _hand: {fileID: 789870587}
   _updateRootPose: 1
   _updateRootScale: 1
+  _updateVisibility: 1
   _skinnedMeshRenderer: {fileID: 599251123}
   _root: {fileID: 0}
   _handMaterialPropertyBlockEditor: {fileID: 599251122}
@@ -9692,7 +9884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugText: {fileID: 1240180147}
-  ndiReceiver: {fileID: 0}
+  ndiReceiver: {fileID: 287275802}
 --- !u!114 &427749929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12070,7 +12262,7 @@ MonoBehaviour:
   _cameraRigRef: {fileID: 277383976}
   _processLateUpdates: 0
   _handedness: 1
-  _ovrHand: {fileID: 0}
+  _ovrHand: {fileID: 876592449}
   _trackingToWorldTransformer: {fileID: 277383975}
   _handSkeletonProvider: {fileID: 2003463979}
 --- !u!4 &536701726
@@ -14391,6 +14583,7 @@ MonoBehaviour:
   _handJointId: 0
   _localPositionOffset: {x: 0.1, y: -0.05, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &647734846
 GameObject:
   m_ObjectHideFlags: 0
@@ -15525,7 +15718,7 @@ MonoBehaviour:
   _hand: {fileID: 1066985890}
   _offset: {x: -0.1, y: -0.035, z: 0}
   _rotation: {x: 0.105225, y: -0.6678412, z: 0.013933297, w: 0.7366965}
-  _mirrorLeftRotation: 1
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &745859502
 GameObject:
   m_ObjectHideFlags: 0
@@ -16159,6 +16352,9 @@ MonoBehaviour:
   _hand: {fileID: 2073561224}
   _handGrabApi: {fileID: 413402123}
   _collider: {fileID: 1432034552}
+  _localPositionOffset: {x: 0, y: 0, z: 0}
+  _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &773491614
 GameObject:
   m_ObjectHideFlags: 0
@@ -17445,6 +17641,7 @@ MonoBehaviour:
   _handJointId: 8
   _localPositionOffset: {x: 0.017, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &826334508
 GameObject:
   m_ObjectHideFlags: 0
@@ -18576,7 +18773,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876592442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cc5c234723e3a54d8dd09b131117743, type: 3}
   m_Name: 
@@ -18736,9 +18933,9 @@ MonoBehaviour:
   useRecommendedMSAALevel: 1
   _monoscopic: 0
   _sharpenType: 0
-  enableDynamicResolution: 0
-  minDynamicResolutionScale: 1
-  maxDynamicResolutionScale: 1
+  enableDynamicResolution: 1
+  minDynamicResolutionScale: 0.7
+  maxDynamicResolutionScale: 1.3
   minRenderScale: 0.7
   maxRenderScale: 1
   _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
@@ -18810,7 +19007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usePerEyeCameras: 0
-  useFixedUpdateForTracking: 0
+  useFixedUpdateForTracking: 1
   disableEyeAnchorCameras: 0
 --- !u!114 &889364096
 MonoBehaviour:
@@ -19084,6 +19281,7 @@ MonoBehaviour:
   _handJointId: 0
   _localPositionOffset: {x: 0.1, y: -0.05, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &898127860
 GameObject:
   m_ObjectHideFlags: 0
@@ -19722,8 +19920,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 787007161}
+  - {fileID: 163142385}
   - {fileID: 1832296799}
+  - {fileID: 787007161}
   m_Father: {fileID: 502591462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &966132249
@@ -22347,6 +22546,9 @@ MonoBehaviour:
   _hand: {fileID: 1066985890}
   _handGrabApi: {fileID: 547729406}
   _collider: {fileID: 135742364}
+  _localPositionOffset: {x: 0, y: 0, z: 0}
+  _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &1135826983
 GameObject:
   m_ObjectHideFlags: 0
@@ -22735,7 +22937,6 @@ MonoBehaviour:
   cloudSpawnHeight: 5
   initialScale: {x: 0.1, y: 0.1, z: 0.1}
   scaleFactor: 0.1
-  rayInteractor: {fileID: 0}
   spawnAction:
     m_Name: Spawn
     m_Type: 0
@@ -23283,7 +23484,7 @@ MonoBehaviour:
   _hand: {fileID: 2073561224}
   _offset: {x: 0, y: 0, z: 0}
   _rotation: {x: 0, y: 0, z: 0, w: 1}
-  _mirrorLeftRotation: 0
+  _mirrorOffsetsForLeftHand: 0
 --- !u!1 &1191087038
 GameObject:
   m_ObjectHideFlags: 0
@@ -24781,7 +24982,7 @@ MonoBehaviour:
   _hand: {fileID: 1066985890}
   _offset: {x: 0, y: 0, z: 0}
   _rotation: {x: 0, y: 0, z: 0, w: 1}
-  _mirrorLeftRotation: 0
+  _mirrorOffsetsForLeftHand: 0
 --- !u!1 &1279818347
 GameObject:
   m_ObjectHideFlags: 0
@@ -28205,7 +28406,7 @@ MonoBehaviour:
   _hand: {fileID: 2073561224}
   _offset: {x: -0.11, y: -0.075, z: -0.02}
   _rotation: {x: 0.105225, y: -0.6678412, z: 0.013933297, w: 0.7366965}
-  _mirrorLeftRotation: 1
+  _mirrorOffsetsForLeftHand: 1
 --- !u!4 &1432034555
 Transform:
   m_ObjectHideFlags: 0
@@ -30262,6 +30463,7 @@ MonoBehaviour:
   _hand: {fileID: 1337649523}
   _updateRootPose: 1
   _updateRootScale: 1
+  _updateVisibility: 1
   _skinnedMeshRenderer: {fileID: 1531268239}
   _root: {fileID: 0}
   _handMaterialPropertyBlockEditor: {fileID: 1531268238}
@@ -31049,6 +31251,7 @@ MonoBehaviour:
   _handJointId: 8
   _localPositionOffset: {x: 0.017, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &1586865895
 GameObject:
   m_ObjectHideFlags: 0
@@ -32653,7 +32856,6 @@ MonoBehaviour:
   cloudSpawnHeight: 5
   initialScale: {x: 0.1, y: 0.1, z: 0.1}
   scaleFactor: 0.1
-  rayInteractor: {fileID: 0}
   spawnAction:
     m_Name: Spawn
     m_Type: 0
@@ -36711,6 +36913,7 @@ MonoBehaviour:
   _handJointId: 0
   _localPositionOffset: {x: 0, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
+  _mirrorOffsetsForLeftHand: 1
 --- !u!1 &1914458314
 GameObject:
   m_ObjectHideFlags: 0
@@ -46485,7 +46688,7 @@ Transform:
   m_GameObject: {fileID: 3822486097073155152}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.15, y: 0.89, z: 0.788}
+  m_LocalPosition: {x: -0.15, y: -0.302, z: 0.788}
   m_LocalScale: {x: 0.28, y: 0.28, z: 0.28}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -47299,7 +47502,6 @@ SceneRoots:
   - {fileID: 8424153679719892167}
   - {fileID: 889364097}
   - {fileID: 1759468719}
-  - {fileID: 1638366486}
   - {fileID: 218334032}
   - {fileID: 287275801}
   - {fileID: 427749932}
@@ -47307,3 +47509,4 @@ SceneRoots:
   - {fileID: 1259009013}
   - {fileID: 1420524996}
   - {fileID: 363179528}
+  - {fileID: 1638366486}
