@@ -186,39 +186,37 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fog
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+			#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 
 			
+            #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+		
 
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 
 			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT
-           
 
 			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+           
 
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile _ _LIGHT_LAYERS
@@ -226,8 +224,6 @@ Shader "CloudSimple"
 			#pragma multi_compile _ _FORWARD_PLUS
 
 			
-            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-		
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ SHADOWS_SHADOWMASK
@@ -246,8 +242,16 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_FORWARD
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -279,7 +283,6 @@ Shader "CloudSimple"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
@@ -567,29 +570,22 @@ Shader "CloudSimple"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float dotResult42 = dot( WorldViewDirection , -_MainLightPosition.xyz );
-				float ase_lightIntensity = max( max( _MainLightColor.r, _MainLightColor.g ), _MainLightColor.b );
-				float4 ase_lightColor = float4( _MainLightColor.rgb / ase_lightIntensity, ase_lightIntensity );
-				
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
-				float4 temp_cast_2 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_2 ) * 0.32 ).xy ).r );
-				float3 temp_cast_4 = (( 1.0 - ( temp_output_34_0 - ( temp_output_57_0 * temp_output_34_0 ) ) )).xxx;
-				
-				float4 temp_cast_6 = (mulTime2).xxxx;
+				float mulTime2 = _TimeParameters.x * 0.007;
+				float4 temp_cast_1 = (mulTime2).xxxx;
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float3 Normal = ( pow( saturate( dotResult42 ) , 6.420224 ) * 1.49 * ase_lightColor ).rgb;
-				float3 Emission = temp_cast_4;
+				float3 Normal = float3(0, 0, 1);
+				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
@@ -839,20 +835,16 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
@@ -866,6 +858,10 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_SHADOWCASTER
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -1132,14 +1128,14 @@ Shader "CloudSimple"
 				#endif
 
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -1181,20 +1177,16 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -1206,6 +1198,10 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_DEPTHONLY
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -1451,14 +1447,14 @@ Shader "CloudSimple"
 				#endif
 
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.positionCS.z;
@@ -1494,9 +1490,6 @@ Shader "CloudSimple"
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 140010
 
 			#pragma shader_feature EDITOR_VISUALIZATION
@@ -1762,20 +1755,17 @@ Shader "CloudSimple"
 					#endif
 				#endif
 
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float3 temp_cast_3 = (( 1.0 - ( temp_output_34_0 - ( temp_output_57_0 * temp_output_34_0 ) ) )).xxx;
-				
-				float4 temp_cast_5 = (mulTime2).xxxx;
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float3 Emission = temp_cast_3;
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float3 Emission = 0;
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
 					clip(Alpha - AlphaClipThreshold);
@@ -1812,9 +1802,6 @@ Shader "CloudSimple"
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#define _SURFACE_TYPE_TRANSPARENT 1
-			#define _EMISSION
-			#define _ALPHATEST_ON 1
-			#define _NORMALMAP 1
 			#define ASE_SRP_VERSION 140010
 
 
@@ -2052,15 +2039,15 @@ Shader "CloudSimple"
 				#endif
 
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4(BaseColor, Alpha );
 
@@ -2088,24 +2075,20 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			
-            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -2118,8 +2101,16 @@ Shader "CloudSimple"
 			//#define SHADERPASS SHADERPASS_DEPTHNORMALS
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -2383,22 +2374,16 @@ Shader "CloudSimple"
 					#endif
 				#endif
 
-				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
-				ase_worldViewDir = normalize(ase_worldViewDir);
-				float dotResult42 = dot( ase_worldViewDir , -_MainLightPosition.xyz );
-				float ase_lightIntensity = max( max( _MainLightColor.r, _MainLightColor.g ), _MainLightColor.b );
-				float4 ase_lightColor = float4( _MainLightColor.rgb / ase_lightIntensity, ase_lightIntensity );
-				
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
-				float4 temp_cast_2 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_2 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float mulTime2 = _TimeParameters.x * 0.007;
+				float4 temp_cast_1 = (mulTime2).xxxx;
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
-				float3 Normal = ( pow( saturate( dotResult42 ) , 6.420224 ) * 1.49 * ase_lightColor ).rgb;
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float3 Normal = float3(0, 0, 1);
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.positionCS.z;
@@ -2463,41 +2448,35 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fog
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 
 			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT
-           
 
 			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+           
 
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 			#pragma multi_compile_fragment _ _RENDER_PASS_ENABLED
       
 			
-            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
-		
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
@@ -2517,8 +2496,16 @@ Shader "CloudSimple"
 			#define SHADERPASS SHADERPASS_GBUFFER
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -2550,7 +2537,6 @@ Shader "CloudSimple"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
@@ -2833,29 +2819,22 @@ Shader "CloudSimple"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float dotResult42 = dot( WorldViewDirection , -_MainLightPosition.xyz );
-				float ase_lightIntensity = max( max( _MainLightColor.r, _MainLightColor.g ), _MainLightColor.b );
-				float4 ase_lightColor = float4( _MainLightColor.rgb / ase_lightIntensity, ase_lightIntensity );
-				
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
 				float4 appendResult5 = (float4(WorldPosition.x , WorldPosition.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
-				float4 temp_cast_2 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_2 ) * 0.32 ).xy ).r );
-				float3 temp_cast_4 = (( 1.0 - ( temp_output_34_0 - ( temp_output_57_0 * temp_output_34_0 ) ) )).xxx;
-				
-				float4 temp_cast_6 = (mulTime2).xxxx;
+				float mulTime2 = _TimeParameters.x * 0.007;
+				float4 temp_cast_1 = (mulTime2).xxxx;
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - WorldPosition.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float3 Normal = ( pow( saturate( dotResult42 ) , 6.420224 ) * 1.49 * ase_lightColor ).rgb;
-				float3 Emission = temp_cast_4;
+				float3 Normal = float3(0, 0, 1);
+				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = 1;
-				float AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
@@ -2970,18 +2949,14 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -3016,6 +2991,10 @@ Shader "CloudSimple"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
@@ -3208,14 +3187,14 @@ Shader "CloudSimple"
 
 				float3 ase_worldPos = IN.ase_texcoord.xyz;
 				float4 appendResult5 = (float4(ase_worldPos.x , ase_worldPos.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - ase_worldPos.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - ase_worldPos.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
-				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				surfaceDescription.Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -3251,18 +3230,14 @@ Shader "CloudSimple"
 			HLSLPROGRAM
 
 			
-            #define _NORMAL_DROPOFF_TS 1
-            #define ASE_FOG 1
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define _EMISSION
-            #define _ALPHATEST_ON 1
-            #define _NORMALMAP 1
-            #define ASE_SRP_VERSION 140010
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_SRP_VERSION 140010
 
 
 			
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-		
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -3297,6 +3272,10 @@ Shader "CloudSimple"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
 			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
 
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
@@ -3488,14 +3467,14 @@ Shader "CloudSimple"
 
 				float3 ase_worldPos = IN.ase_texcoord.xyz;
 				float4 appendResult5 = (float4(ase_worldPos.x , ase_worldPos.z , 0.0 , 0.0));
-				float mulTime2 = _TimeParameters.x * 0.008;
+				float mulTime2 = _TimeParameters.x * 0.007;
 				float4 temp_cast_1 = (mulTime2).xxxx;
-				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.32 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.32 ).xy ).r );
-				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - ase_worldPos.y ) ) / ( _cloudHeight * 0.4 ) ) ) , _TaperPower ) );
+				float temp_output_57_0 = ( tex2D( _TextureSample0, ( 0.44 * ( appendResult5 + mulTime2 ) ).xy ).r * tex2D( _TextureSample1, ( 0.63 * ( appendResult5 - temp_cast_1 ) * 0.44 ).xy ).r );
+				float temp_output_34_0 = ( 1.0 - pow( saturate( ( abs( ( _midYValue - ase_worldPos.y ) ) / ( _cloudHeight * 0.07 ) ) ) , _TaperPower ) );
 				
 
-				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				surfaceDescription.Alpha = pow( saturate( (0.0 + (( temp_output_57_0 * temp_output_34_0 ) - 0.0) * (1.0 - 0.0) / (_CloudCutoff - 0.0)) ) , _Softness );
+				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -3529,42 +3508,42 @@ Shader "CloudSimple"
 /*ASEBEGIN
 Version=19603
 Node;AmplifyShaderEditor.WorldPosInputsNode;24;-1993.658,834.9788;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;23;-2016,704;Float;False;Property;_midYValue;midYValue;4;0;Create;True;0;0;0;False;0;False;-1.053197;-2.862984;-3;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;23;-2016,704;Float;False;Property;_midYValue;midYValue;4;0;Create;True;0;0;0;False;0;False;-1.053197;-2.043478;-3;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;4;-1408,-336;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;3;-1168,16;Inherit;False;Constant;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;0.008;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;3;-1168,16;Inherit;False;Constant;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;0.007;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;25;-1645.315,796.4163;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;27;-1337.658,1026.979;Inherit;False;Constant;_Float4;Float 4;10;0;Create;True;0;0;0;False;0;False;0.4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1648,960;Float;False;Property;_cloudHeight;cloudHeight;5;0;Create;True;0;0;0;False;0;False;2.95;0.21;-3;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;27;-1337.658,1026.979;Inherit;False;Constant;_Float4;Float 4;10;0;Create;True;0;0;0;False;0;False;0.07;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1648,960;Float;False;Property;_cloudHeight;cloudHeight;5;0;Create;True;0;0;0;False;0;False;2.95;-0.1317391;-3;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;2;-928,-176;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;5;-1472,-544;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;-1321.312,907.0892;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.AbsOpNode;29;-1401.658,770.9788;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;15;-1088,-592;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;52;-805.6163,-981.313;Inherit;False;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RangedFloatNode;7;-1152,-784;Inherit;False;Constant;_Frequency;Frequency;2;0;Create;True;0;0;0;False;0;False;0.32;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;7;-1152,-784;Inherit;False;Constant;_Frequency;Frequency;2;0;Create;True;0;0;0;False;0;False;0.44;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;53;-544,-1120;Inherit;False;Constant;_Float8;Float 0;1;0;Create;True;0;0;0;False;0;False;0.63;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;30;-1177.658,770.9788;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;6;-864,-736;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;-277.6163,-1109.313;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SaturateNode;32;-988.3123,751.0892;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;31;-944,880;Inherit;False;Property;_TaperPower;Taper Power;7;0;Create;True;0;0;0;False;0;False;2.861839;1.52;-3;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;31;-944,880;Inherit;False;Property;_TaperPower;Taper Power;7;0;Create;True;0;0;0;False;0;False;2.861839;0.1971641;-3;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;55;-37.61633,-1205.313;Inherit;True;Property;_TextureSample1;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;7f707e9b76cdb7c4a8c3b05bef6d7f27;7f707e9b76cdb7c4a8c3b05bef6d7f27;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.SamplerNode;1;-560,-592;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;9ac0a7ba6bf510e4ba3e9af1dad077e2;7f707e9b76cdb7c4a8c3b05bef6d7f27;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
 Node;AmplifyShaderEditor.PowerNode;33;-761.658,642.9788;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;57;-368,-304;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;34;-585.658,642.9788;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;32,-448;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;8;-128,-784;Inherit;False;Property;_CloudCutoff;Cloud Cutoff;1;0;Create;True;0;0;0;False;0;False;0.9202897;0.1;0.1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;8;-128,-784;Inherit;False;Property;_CloudCutoff;Cloud Cutoff;1;0;Create;True;0;0;0;False;0;False;0.9202897;0.2661288;0.1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;10;88.52942,-626.8477;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;11;352,-608;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;12;272,-848;Inherit;False;Property;_Softness;Softness;3;0;Create;True;0;0;0;False;0;False;3;2.43;0.01;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;12;272,-848;Inherit;False;Property;_Softness;Softness;3;0;Create;True;0;0;0;False;0;False;3;3;0.01;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;39;-1245.91,-1673.265;Inherit;True;False;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ViewDirInputsCoordNode;40;-1222.598,-1834.772;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.NegateNode;41;-949.2756,-1712.929;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DotProductOpNode;42;-765.9098,-1833.265;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;32,384;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;43;-557.9098,-1865.265;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;44;-637.9098,-1721.265;Inherit;False;Constant;_SSSPower;SSS Power;10;0;Create;True;0;0;0;False;0;False;6.420224;0;0;50;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;44;-637.9098,-1721.265;Inherit;False;Constant;_SSSPower;SSS Power;10;0;Create;True;0;0;0;False;0;False;43.37675;0;0;50;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;37;352,576;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;45;-349.9098,-1833.265;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;46;-304,-1680;Inherit;False;Constant;_Float5;Float 5;10;0;Create;True;0;0;0;False;0;False;1.49;0;0;0;0;1;FLOAT;0
@@ -3643,8 +3622,6 @@ WireConnection;48;2;47;0
 WireConnection;62;2;61;0
 WireConnection;62;3;60;0
 WireConnection;63;0;62;0
-WireConnection;76;1;48;0
-WireConnection;76;2;38;0
-WireConnection;76;7;13;0
+WireConnection;76;6;13;0
 ASEEND*/
-//CHKSM=EFA91E84EEBB5BB00BA37C96CBF83426331733C6
+//CHKSM=36FE90E8AAAA9CAD5CC5D60D2A9153293256B765

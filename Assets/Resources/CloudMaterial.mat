@@ -13,7 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -92,7 +92,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _BumpScale: 1
     - _ChromaticAberration: 0.1
-    - _CloudCutoff: 0.1
+    - _CloudCutoff: 0.26612878
     - _Cutoff: 0.04
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -108,10 +108,10 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SmoothnessTextureChannel: 0
-    - _Softness: 2.43
+    - _Softness: 3
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TaperPower: 1.52
+    - _TaperPower: 0.19716409
     - _TransAmbient: 0.2
     - _TransDirect: 1
     - _TransNormalDistortion: 0.1
@@ -121,8 +121,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 1
-    - _cloudHeight: 0.21
-    - _midYValue: -2.8629842
+    - _cloudHeight: -0.13173914
+    - _midYValue: -2.0434783
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
