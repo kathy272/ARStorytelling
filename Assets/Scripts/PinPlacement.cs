@@ -1,113 +1,72 @@
+using Oculus.Interaction;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PinPlacement : MonoBehaviour
+public class PinPlacementHandler : MonoBehaviour
 {
-    public GameObject pinPrefab;
-    public Camera arCamera;
-    public Button takeScreenshotButton;
-    public ScreenshotHandler screenshotHandler;
-
    
-    public Button placePinBtn;
-    private bool isPlacingPin = false;
-    private Transform terrain;
-    public GameObject terrainObject;
-    private Texture2D screenshot;
-    private GameObject terrainClone;
+    public GameObject pinPrefab;           // Pin prefab to spawn
+    public Button spawnPinButton;
+    public Button finishBtn;
+    public Transform handTransform;        // Hand transform to place the pin
+    private GameObject _pinClone;          // Clone of the pin prefab
+    private GameObject HandGrab;           // HandGrab GameObject (child of pinPrefab)
+    private GameObject FloatingUI;         // FloatingUI GameObject (child of pinPrefab)
+
+    public Text debugText;                 // For debugging purposes
 
     void Start()
     {
-        placePinBtn.onClick.AddListener(EnablePinPlacementMode);
-        takeScreenshotButton.onClick.AddListener(OnTakeScreenshot);
+        finishBtn.gameObject.SetActive(false);
+        spawnPinButton.onClick.AddListener(SpawnPin);
+        finishBtn.onClick.AddListener(Finish);
     }
 
-    public void EnablePinPlacementMode()
+    public void SpawnPin()
     {
-        Debug.Log("Pin placement mode enabled.");
-        isPlacingPin = true;
-    }
+        finishBtn.gameObject.SetActive(true);
+        spawnPinButton.gameObject.SetActive(false);
 
-    void Update()
-    {
-        if (isPlacingPin && Input.GetMouseButtonDown(0))
+        if (_pinClone == null)
         {
-            screenshot = screenshotHandler.GetScreenshot();
-            Debug.Log("The screenshot is: " + screenshot);
+            // Instantiate the pin at the hand's position
+            _pinClone = Instantiate(pinPrefab, handTransform.position, handTransform.rotation);
 
-            Debug.Log("Mouse button clicked");
-            if (screenshot != null)
+            // Find the HandGrab GameObject within the spawned pin
+            HandGrab = _pinClone.transform.Find("HandGrab").gameObject;
+            FloatingUI = _pinClone.transform.Find("FloatingUI").gameObject;
+
+            if (HandGrab != null)
             {
-                Vector2 screenPosition = Input.mousePosition;
-                TryPlacePin(screenPosition);
+                HandGrab.SetActive(true);
+                FloatingUI.SetActive(false);
             }
             else
             {
-                Debug.LogWarning("Screenshot not captured or retrieved.");
-                Vector2 screenPosition = Input.mousePosition;
-                TryPlacePin(screenPosition);
+                Debug.LogWarning("HandGrab object not found in the pin clone!");
             }
+
+        
+
+            debugText.text = "Pin spawned.";
+            Debug.Log("Pin spawned.");
         }
     }
 
-    private void OnTakeScreenshot()
+    private void Finish()
     {
-        screenshotHandler.TakeScreenshot();
-        screenshot = screenshotHandler.GetScreenshot();
+        finishBtn.gameObject.SetActive(false);
+        spawnPinButton.gameObject.SetActive(true);
 
-        if (screenshot == null)
+        // Disable the HandGrab GameObject when finished
+        if (HandGrab != null)
         {
-            Debug.LogError("Failed to capture or retrieve screenshot.");
-        }
-    }
-
-    private void TryPlacePin(Vector2 screenPosition)
-    {
-        Debug.Log("Trying to place pin at screen position: " + screenPosition);
-        // Find the terrain object named "Terrain(Clone)"
-        // GameObject terrainObject = GameObject.Find("Terrain(Clone)");
-        terrainClone = GameObject.Find("MenuAndTerrain(Clone)");
-        if (terrainClone != null)
-        {
-            terrain = terrainClone.transform;
-            Debug.Log("Terrain found: " + terrain.name);
+            HandGrab.SetActive(false);
+            FloatingUI.SetActive(true);
         }
         else
         {
-            Debug.LogError("Terrain(Clone) not found!");
-            return;
+            Debug.LogWarning("HandGrab object is null!");
         }
-
-        // Convert screen position to a ray
-        Ray ray = arCamera.ScreenPointToRay(screenPosition);
-        RaycastHit hit;
-
-        // Perform raycast to check if the click is on the terrain
-        if (Physics.Raycast(ray, out hit))
-        {
-
-            // Check if the hit object is the terrain
-            if (hit.collider.CompareTag("Terrain"))
-            {
-                PlacePin(hit.point);
-            }
-            else
-            {
-                Debug.LogWarning("Click was not on the terrain.");
-                PlacePin(hit.point);
-
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Raycast did not hit any object.");
-        }
-    }
-
-    private void PlacePin(Vector3 position)
-    {
-        GameObject pin = Instantiate(pinPrefab, position, Quaternion.identity);
-        Debug.Log("Pin placed at: " + position);
-        isPlacingPin = false; // Disable pin placement mode after placing
     }
 }

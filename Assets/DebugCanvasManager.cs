@@ -1,40 +1,61 @@
-using Klak.Ndi;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 
 public class DebugCanvasManager : MonoBehaviour
 {
     public Text debugText;  // Reference to the text component
-    public NdiReceiver ndiReceiver;  // Reference to the NDI receiver
+    private ARTrackedImageManager trackedImageManager;
 
     void Start()
     {
-        // Start by displaying a basic message
-        debugText.text = "Starting App...";
+        // Get the ARTrackedImageManager component
+        trackedImageManager = FindObjectOfType<ARTrackedImageManager>();
+        debugText.text = "Starting AR Tracking...";
     }
 
-    void Update()
+    void OnEnable()
     {
-        // Update the text with useful debugging info
-        if (NDIReceiverIsConnected())  // Check the NDI connection status
+        if (trackedImageManager != null)
         {
-            debugText.text = "NDI feed connected";
-        }
-        else
-        {
-            debugText.text = "NDI feed not connected";
+            trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+            debugText.text = "AR Tracking enabled.";
         }
     }
 
-    // Check the NDI connection status by verifying the texture
-    bool NDIReceiverIsConnected()
+    void OnDisable()
     {
-        // Check if the NDI receiver is not null and if it has a valid texture
-        if (ndiReceiver != null)
+        if (trackedImageManager != null)
         {
-            return ndiReceiver.texture != null; // Check if the texture is not null
+            trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
+            debugText.text = "AR Tracking disabled.";
         }
-        return false;  // Return false if ndiReceiver is not set
+    }
+
+    // Handle changes in tracked images
+    private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
+    {
+        foreach (var trackedImage in eventArgs.added)
+        {
+            debugText.text = $"Image {trackedImage.referenceImage.name} detected.";
+        }
+
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            if (trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking)
+            {
+                debugText.text = $"Tracking {trackedImage.referenceImage.name}.";
+            }
+            else
+            {
+                debugText.text = $"Lost tracking of {trackedImage.referenceImage.name}.";
+            }
+        }
+
+        foreach (var trackedImage in eventArgs.removed)
+        {
+            debugText.text = $"Image {trackedImage.referenceImage.name} removed.";
+        }
     }
 
     // Method to log additional information

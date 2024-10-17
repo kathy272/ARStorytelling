@@ -24,6 +24,6 @@ MonoBehaviour:
       m_GuidLow: 14237266352741548112
       m_GuidHigh: 2269996433677080714
     m_Size: {x: 0.05, y: 0.050265253}
-    m_SpecifySize: 1
+    m_SpecifySize: 0
     m_Name: ARMarker
     m_Texture: {fileID: 2800000, guid: c7c80050ee50c5948ad8b9bebaa5801f, type: 3}
